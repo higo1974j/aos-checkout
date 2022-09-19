@@ -1,0 +1,34 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.0.0'
+}
+
+group = 'com.higo1974j'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': 'com.higo1974j.aos.checkout.CheckoutExecutor'
+    }
+}
+
+task stage {
+  dependsOn clean,shadowJar 
+}
+
+dependencies {
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '4.4.0'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.19.0'
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.19.0'
+      compileOnly 'org.projectlombok:lombok:1.18.20'
+  annotationProcessor 'org.projectlombok:lombok:1.18.24'
+  testCompileOnly 'org.projectlombok:lombok:1.18.24'
+  testAnnotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+    
