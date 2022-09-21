@@ -1,5 +1,5 @@
 # Aos checkout
-Automation checkout for Apple Online Store Japan
+Checkout app for Apple Online Store Japan
 
 ## How to run this program
 - Put chromedirver in driver directory
