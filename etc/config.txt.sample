@@ -1,7 +1,6 @@
 user.data.dir=/Users/brabra/selenium/data/user01
 chrome.driver=driver/chromedriver
 security.code=123
-apple.id=brabra@apple.com
 apple.password=password
 mobile.telephone.number=12345678
 store.zip.code=100-0001
