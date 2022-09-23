@@ -52,6 +52,7 @@ public class Review implements BaseView {
     log.info("Review start");
     display();
     submit();
+    //terminated = true;
     log.info("Review end");
   }
 

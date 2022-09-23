@@ -19,20 +19,18 @@ public class CheckoutExecutor {
     config.load(filename);
   }
 
-  public void execute() {
+  public void execute(String mode) {
+    if (mode != null && mode.equalsIgnoreCase("--setup")) {
+      setupLoop();
+      return;
+    }
     boolean result = false;
     CheckoutController controller = null;
     while (!result) {
       try {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--user-data-dir=" + config.getProperty("user.data.dir"));
-        options.addArguments("--profile-directory=apple");
-        System.setProperty("webdriver.chrome.driver", config.getProperty("chrome.driver"));
-        WebDriver driver = new ChromeDriver(options);
-        SeleniumWrapper wrapper = new SeleniumWrapper(driver);
+        SeleniumWrapper wrapper = createWrapper(); 
         controller = new CheckoutController();
         controller.init(wrapper);
-
         result = controller.execute();
       } catch (Exception ex) {
         log.error("error occured. reset all", ex);
@@ -46,7 +44,19 @@ public class CheckoutExecutor {
     }
   }
 
-  public void setupLoop(WebDriver driver) {
+  private SeleniumWrapper createWrapper() {
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--user-data-dir=" + config.getProperty("user.data.dir"));
+    options.addArguments("--profile-directory=apple");
+    System.setProperty("webdriver.chrome.driver", config.getProperty("chrome.driver"));
+    WebDriver driver = new ChromeDriver(options);
+    SeleniumWrapper wrapper = new SeleniumWrapper(driver);
+    return wrapper;
+  }
+  
+  public void setupLoop() {
+    SeleniumWrapper wrapper = createWrapper(); 
+    wrapper.get("https://www.apple.com/jp");
     try {
       Thread.sleep(3600 * 1000);
     } catch (Exception ex) {
@@ -58,6 +68,10 @@ public class CheckoutExecutor {
   public static void main(String[] args) throws Exception {
     CheckoutExecutor coItem = new CheckoutExecutor();
     coItem.init(args[0]);
-    coItem.execute();
+    String mode = null;
+    if (args.length ==2 ) {
+      mode = args[1];
+    }
+    coItem.execute(mode);
   }
 }

@@ -41,6 +41,7 @@ public class CheckoutController {
   private Shipping shipping;
 
   private static final int MAX_EXCEPTION_COUNT = 1;
+
   private static final int MAX_RESET_COUNT = 2;
 
   private ViewHelper helper = null;
@@ -104,13 +105,12 @@ public class CheckoutController {
     while (true) {
       String storeZipCode = Config.getInstance().getProperty("store.zip.code");
       try {
-        //wrapper.waitH1( "ご希望の受け取り方法は？");
+        //"ご希望の受け取り方法は？"
         fullfillment.display();
         fullfillment.selectPickup();
         fullfillment.selectLocalStore();
         fullfillment.waitShowingExtendedStore();
         fullfillment.setZipAndClick(storeZipCode);
-        fullfillment.waitApplying();
         boolean click = fullfillment.getYourOrderLabelClickOneToThree();
         preException = false;
         if (click) {
@@ -208,13 +208,13 @@ public class CheckoutController {
         purchase = true;
         {
           File tempFile = wrapper.getScreenShopAsFile();
-          Thread.sleep(180 * 1000);
+          Thread.sleep(10 * 1000);
           moveFile(tempFile);
         }
 
         {
           File tempFile = wrapper.getScreenShopAsFile();
-          Thread.sleep(180 * 1000);
+          Thread.sleep(20 * 1000);
           moveFile(tempFile);
         }
 
